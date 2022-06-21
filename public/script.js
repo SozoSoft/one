@@ -1,3 +1,7 @@
+window.onload = function () {
+  var text = document.getElementById("text");
+  text.focus();
+};
 const terrain = new Terrain();
 
 const player = generate(
