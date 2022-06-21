@@ -1,0 +1,1 @@
+class Tool extends Item{super()};

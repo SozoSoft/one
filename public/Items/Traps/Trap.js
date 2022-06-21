@@ -1,0 +1,1 @@
+class Trap extends Item{super()};

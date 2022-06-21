@@ -1,0 +1,1 @@
+class Craftable extends Item{super()};

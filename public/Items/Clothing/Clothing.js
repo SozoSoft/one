@@ -1,0 +1,1 @@
+class Clothing extends Item{super()};
