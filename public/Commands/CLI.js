@@ -178,7 +178,6 @@ let command = "";
 let prevCommandCounter = 0;
 
 function cli_event(e) {
-  isMobile && e.keyCode === 13 && (e.key = "Enter");
   switch (e.key) {
     case "Escape":
       break;
