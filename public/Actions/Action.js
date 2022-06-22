@@ -274,7 +274,16 @@ class Action {
         }
         break;
       case "look around":
-        cli.addCommand("You are looking around...");
+        cli.addCommand("NOT YET IMPLEMENTED");
+        break;
+      case "start fishing ":
+        cli.addCommand("NOT YET IMPLEMENTED");
+        break;
+      case "pause":
+        cli.addCommand("NOT YET IMPLEMENTED");
+        break;
+      default:
+        cli.addCommand("NOT YET IMPLEMENTED");
         break;
     }
   }
