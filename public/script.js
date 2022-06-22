@@ -1,7 +1,3 @@
-window.onload = function () {
-  var text = document.getElementById("text");
-  text.focus();
-};
 const terrain = new Terrain();
 
 const player = generate(
@@ -71,4 +67,3 @@ terrain.draw();
 player.draw();
 // deer.draw();
 cli.show();
-//#endregion

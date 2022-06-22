@@ -21,7 +21,31 @@ TODO:
     * 'todo [action][index to be inserted at]' -> adds an action to be done after action at previous index completes
         * pushes whatever's currently at that index to the following index
 */
+/**
+ * Determine the mobile operating system.
+ * This function returns one of 'iOS', 'Android', 'Windows Phone', or 'unknown'.
+ *
+ * @returns {String}
+ */
+function getMobileOperatingSystem() {
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
+  // Windows Phone must come first because its UA also contains "Android"
+  if (/windows phone/i.test(userAgent)) {
+    return "Windows Phone";
+  }
+
+  if (/android/i.test(userAgent)) {
+    return "Android";
+  }
+
+  // iOS detection from: http://stackoverflow.com/a/9039885/177710
+  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    return "iOS";
+  }
+
+  return "unknown";
+}
 class CLI extends Matter {
   visible;
   commands;
@@ -133,12 +157,28 @@ class CLI extends Matter {
   }
 }
 
+const os = getMobileOperatingSystem();
+const isMobile = os == "Android" || os == "iOS" || os == "Windows Phone";
+const text = document.getElementById("text");
+
+isMobile &&
+  (text.oninput = () => {
+    console.log("You typed: " + text.value);
+    cli_event({ key: text.value });
+  });
+
+isMobile &&
+  (text.onsubmit = () => {
+    cli_event({ key: "Enter", keyCode: 13 });
+  });
+
 document.addEventListener("keydown", cli_event);
 
 let command = "";
 let prevCommandCounter = 0;
 
 function cli_event(e) {
+  isMobile && e.keyCode === 13 && (e.key = "Enter");
   switch (e.key) {
     case "Escape":
       break;
@@ -149,6 +189,8 @@ function cli_event(e) {
       prevCommandCounter = 0;
       cli.visible && cli.addCommand(command, terrain);
       command = "";
+      text.value = "";
+
       break;
     case "Backspace":
       prevCommandCounter = 0;
@@ -189,9 +231,15 @@ function cli_event(e) {
       break;
 
     default:
+      e.key = e.key.replace("Unidentified", "");
+      console.log("You typed: " + e.key);
       e.key == " " && e.preventDefault();
+      e.key == " " && (text.value += " ");
       prevCommandCounter = 0;
-      cli.visible ? (command += e.key) : null;
+      cli.visible
+        ? (isMobile && (command = text.value.trim())) || (command += e.key)
+        : null;
+      command = command.replace("Unidentified", "");
       cli.visible && cli.update(command);
       break;
   }
