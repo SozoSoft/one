@@ -27,7 +27,7 @@ TODO:
  *
  * @returns {String}
  */
- function getMobileOperatingSystem() {
+function getMobileOperatingSystem() {
   var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
   // Windows Phone must come first because its UA also contains "Android"
@@ -84,6 +84,10 @@ const PLAYER_CTX = PLAYER_CANVAS.getContext("2d");
 const CLI_CTX = CLI_CANVAS.getContext("2d");
 const FAUNA_CANVAS = document.getElementById("fauna");
 const FAUNA_CTX = FAUNA_CANVAS.getContext("2d");
+
+/* TODO: decide whether inventory is going to be its own canvas/ctx, or just another cli output*/
+const INVENTORY_CANVAS = document.getElementById("inventory");
+const INVENTORY_CTX = INVENTORY_CANVAS.getContext("2d");
 //#endregion
 
 //#region player initial coords
