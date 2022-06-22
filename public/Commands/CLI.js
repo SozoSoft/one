@@ -1,62 +1,34 @@
-/*
-TODO: 
-    * 'look around' -> build this out more
-        * likely 1. check if area has already been 'look around' in
-        * if so, check if sufficient time has passed for more items to have appeared (branches falling, mushrooms growing, etc)
-        * if not, randomly generate items based on biome
-        * display found items in cli
-        * if inventory has space, user may then 'pickup [item]' using either item name, item id#, or * to pick up all
-        * if user inventory full, give error
-    * cancel() -> add id as a parameter cancel(id)
-    * if no parameter passed to cancel, cancel most recent job/action (and pop from list)
-    * id -1 would be the last job/action, -2 the second to last, and so on.
-    * id 1 would be the first job/action (or maybe id 0, not sure which would be most intuitive for most players)
-    * wander -> allow arguments for distance and/or time. (wander 30 - player wanders for 30 seconds)
-    * 'list actions' (or something like that) -> new command to list all currently active actions (like ps in bash)
-        * maybe call this 'doing' or 'active' or 'in progress'
-        * list would provide names, est. time to completion, time running, id (job/action id)
-    * 'look around' -> similar to ls in bash
-    * inventory -> lists items in your inventory
-    * 'pause' -> put an action on hold
-    * 'todo [action][index to be inserted at]' -> adds an action to be done after action at previous index completes
-        * pushes whatever's currently at that index to the following index
-*/
-/**
- * Determine the mobile operating system.
- * This function returns one of 'iOS', 'Android', 'Windows Phone', or 'unknown'.
- *
- * @returns {String}
- */
-function getMobileOperatingSystem() {
-  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+// /*
+// TODO: 
+//     * 'look around' -> build this out more
+//         * likely 1. check if area has already been 'look around' in
+//         * if so, check if sufficient time has passed for more items to have appeared (branches falling, mushrooms growing, etc)
+//         * if not, randomly generate items based on biome
+//         * display found items in cli
+//         * if inventory has space, user may then 'pickup [item]' using either item name, item id#, or * to pick up all
+//         * if user inventory full, give error
+//     * cancel() -> add id as a parameter cancel(id)
+//     * if no parameter passed to cancel, cancel most recent job/action (and pop from list)
+//     * id -1 would be the last job/action, -2 the second to last, and so on.
+//     * id 1 would be the first job/action (or maybe id 0, not sure which would be most intuitive for most players)
+//     * wander -> allow arguments for distance and/or time. (wander 30 - player wanders for 30 seconds)
+//     * 'list actions' (or something like that) -> new command to list all currently active actions (like ps in bash)
+//         * maybe call this 'doing' or 'active' or 'in progress'
+//         * list would provide names, est. time to completion, time running, id (job/action id)
+//     * 'look around' -> similar to ls in bash
+//     * inventory -> lists items in your inventory
+//     * 'pause' -> put an action on hold
+//     * 'todo [action][index to be inserted at]' -> adds an action to be done after action at previous index completes
+//         * pushes whatever's currently at that index to the following index
+// */
 
-  // Windows Phone must come first because its UA also contains "Android"
-  if (/windows phone/i.test(userAgent)) {
-    return "Windows Phone";
-  }
-
-  if (/android/i.test(userAgent)) {
-    return "Android";
-  }
-
-  // iOS detection from: http://stackoverflow.com/a/9039885/177710
-  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-    return "iOS";
-  }
-
-  return "unknown";
-}
 class CLI extends Matter {
   visible;
   commands;
   grd;
 
   constructor(x, y, w, h) {
-    super();
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
+    super(x, y, w, h);
     this.visible = false;
     this.commands = [];
     this.history = [];
@@ -157,8 +129,6 @@ class CLI extends Matter {
   }
 }
 
-const os = getMobileOperatingSystem();
-const isMobile = os == "Android" || os == "iOS" || os == "Windows Phone";
 const text = document.getElementById("text");
 
 isMobile &&

@@ -1,20 +1,12 @@
 class Fauna extends Matter {
-  category;
-  icon;
   abilities; //possible actions
   available_actions;
   current_action; //current action
   active_actions;
   todo_actions;
-  constructor(x, y, category, canvas, ctx, icon) {
-    super();
-    this.x = x;
-    this.y = y;
-    this.canvas = canvas;
-    this.ctx = ctx;
-    this.category = category;
-    this.icon = icon;
-    this.active_actions = [];
+  constructor(x, y, w, h, category, canvas, ctx, icon) {
+    super(x, y, w, h, category, canvas, ctx, icon);
+    this.active_actions = []; 
     this.todo_actions = [];
   }
   draw() {

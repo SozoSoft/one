@@ -4,26 +4,14 @@ const player = generate(
   new Fauna(
     RANDOM_X,
     RANDOM_Y,
+    WORLD_WIDTH,
+    WORLD_HEIGHT,
     TYPES.PLAYER,
     PLAYER_CANVAS,
     PLAYER_CTX,
     ICONS.PLAYER
   ),
   TYPES.PLAYER,
-  LAND_CANVAS,
-  LAND_CTX
-);
-
-const deer = generate(
-  new Fauna(
-    RANDOM_X + CELL_SIZE,
-    RANDOM_Y,
-    TYPES.DEER,
-    FAUNA_CANVAS,
-    FAUNA_CTX,
-    ICONS.DEER
-  ),
-  TYPES.DEER,
   LAND_CANVAS,
   LAND_CTX
 );
@@ -46,8 +34,6 @@ try {
     player.x = newx;
     player.y = newy;
   }
-  deer.x = player.x + 16;
-  deer.y = player.y;
 } catch (e) {
   console.log(e);
 }
@@ -65,5 +51,4 @@ FAUNA_CANVAS.style.top -= player.y - WINDOW_HEIGHT / 2;
 //#region draw
 terrain.draw();
 player.draw();
-// deer.draw();
 cli.show();
