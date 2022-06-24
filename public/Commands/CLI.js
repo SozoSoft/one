@@ -46,18 +46,25 @@ class CLI extends Matter {
   }
   //TODO: design help menu
   displayHelpMenu() {}
+
   update(ch) {
     this.show();
     CLI_CTX.fillText(ch, this.x + 22, this.y + 16 + this.commands.length * 16);
   }
+
+  //shelved, currently 6/24/22 envisioning constant cli
   hide() {
     CLI_CTX.clearRect(this.x, this.y, this.w, this.h);
     this.visible = false;
   }
+
+  //show informational message
   addMessage(message, terrain) {
     this.commands.push(message);
     this.show();
   }
+
+  //show error message
   addError(err) {
     this.commands.push(err);
     this.show();

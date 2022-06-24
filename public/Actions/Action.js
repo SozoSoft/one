@@ -5,7 +5,6 @@ class Action {
   target;
   terrain;
   stopped;
-  actor;
   constructor(name = "", terrain, args = [], actor = {}) {
     console.log(actor);
     console.log(actor.abilities);
@@ -78,7 +77,8 @@ class Action {
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     switch (this.name) {
       case "find water":
-        const destination = player.findWater(terrain);
+        // const destination = player.findWater(terrain);
+        const destination = player.find(terrain, "water");
         cli.addMessage("Attempting to " + this.name + "...");
         while (
           (player.x !== destination.x || player.y !== destination.y) &&

@@ -50,21 +50,64 @@ class Fauna extends Matter {
     this.moveNorth();
     this.moveEast();
   }
-  find(target) {
+  find(terrain, target) {
     switch (target) {
       case "water":
+        console.log("Finding water...");
+        for (var row = 0; ; row += CELL_SIZE) {
+          for (var col = -row; col <= row; col += CELL_SIZE) {
+            if (terrain.elevations[this.y - row][this.x - col] <= SEA_LEVEL) {
+              return {
+                x: this.x - (col - CELL_SIZE),
+                y: this.y - (row - CELL_SIZE * 2),
+              };
+            } else if (
+              terrain.elevations[this.y - row][this.x + col] <= SEA_LEVEL
+            ) {
+              return {
+                x: this.x + (col - 0),
+                y: this.y - (row - CELL_SIZE * 2),
+              };
+            } else if (
+              terrain.elevations[this.y + row][this.x - col] <= SEA_LEVEL
+            ) {
+              return {
+                x: this.x - (col - CELL_SIZE),
+                y: this.y + (row - CELL_SIZE),
+              };
+            } else if (
+              terrain.elevations[this.y + row][this.x + col] <= SEA_LEVEL
+            ) {
+              return { x: this.x + (col - 0), y: this.y + (row - CELL_SIZE) };
+            } else if (
+              terrain.elevations[this.y - col][this.x + row] <= SEA_LEVEL
+            ) {
+              return {
+                x: this.x + (row - 0),
+                y: this.y - (col - CELL_SIZE * 2),
+              };
+            } else if (
+              terrain.elevations[this.y - col][this.x - row] <= SEA_LEVEL
+            ) {
+              return {
+                x: this.x - (row - CELL_SIZE),
+                y: this.y - (col - CELL_SIZE * 2),
+              };
+            } else if (
+              terrain.elevations[this.y + col][this.x + row] <= SEA_LEVEL
+            ) {
+              return { x: this.x + (row - 0), y: this.y + (col - CELL_SIZE) };
+            } else if (
+              terrain.elevations[this.y + col][this.x - row] <= SEA_LEVEL
+            ) {
+              return {
+                x: this.x - (row - CELL_SIZE),
+                y: this.y + (col - CELL_SIZE),
+              };
+            }
+          }
+        }
         break;
-    }
-  }
-  setAction(action) {
-    if (this.abilities.indexOf(action) !== -1) {
-      this.current_action = action;
-      this.active_actions.push(this.current_action);
-      console.log(
-        this.category + " is now doing the following action: " + action
-      );
-    } else {
-      console.log(this.category + " cannot " + action);
     }
   }
 }
