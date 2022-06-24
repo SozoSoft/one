@@ -1,7 +1,3 @@
-/*
-    Eventually, all spatial classes should extend Matter
-*/
-
 class Matter {
   x;
   y;
@@ -10,7 +6,16 @@ class Matter {
   canvas;
   ctx;
   icon;
-  constructor(x, y, w, h, category = null, canvas = null, ctx = null, icon = null){
+  constructor(
+    x,
+    y,
+    w,
+    h,
+    category = null,
+    canvas = null,
+    ctx = null,
+    icon = null
+  ) {
     this.x = x;
     this.y = y;
     this.w = w;

@@ -4,71 +4,57 @@ class Fauna extends Matter {
   current_action; //current action
   active_actions;
   todo_actions;
-  constructor(x, y, w, h, category, canvas, ctx, icon) {
-    super(x, y, w, h, category, canvas, ctx, icon);
-    this.active_actions = []; 
+  constructor(x, y, w, h, fauna_type, canvas, ctx, icon) {
+    super(x, y, w, h, fauna_type, canvas, ctx, icon);
+    this.abilities = ABILITY_MAP[fauna_type];
+    this.active_actions = [];
     this.todo_actions = [];
   }
   draw() {
-    this.ctx.clearRect(
-      0,
-      0,
-      PLAYER_CANVAS.clientWidth,
-      PLAYER_CANVAS.clientHeight
-    );
+    this.ctx.clearRect(0, 0, this.canvas.clientWidth, this.canvas.clientHeight);
     this.ctx.fillText(this.icon, this.x, this.y);
   }
   moveEast() {
     this.x += CELL_SIZE;
-    PLAYER_CANVAS.style.left = PLAYER_CANVAS.offsetLeft - CELL_SIZE + "px";
+    this.canvas.style.left = this.canvas.offsetLeft - CELL_SIZE + "px";
     LAND_CANVAS.style.left = LAND_CANVAS.offsetLeft - CELL_SIZE + "px";
-  }
-  moveSoutheast() {
-    this.x += CELL_SIZE;
-    this.y += CELL_SIZE;
-    PLAYER_CANVAS.style.left = PLAYER_CANVAS.offsetLeft - CELL_SIZE + "px";
-    LAND_CANVAS.style.left = LAND_CANVAS.offsetLeft - CELL_SIZE + "px";
-    PLAYER_CANVAS.style.top = PLAYER_CANVAS.offsetTop - CELL_SIZE + "px";
-    LAND_CANVAS.style.top = LAND_CANVAS.offsetTop - CELL_SIZE + "px";
   }
   moveSouth() {
     this.y += CELL_SIZE;
-    PLAYER_CANVAS.style.top = PLAYER_CANVAS.offsetTop - CELL_SIZE + "px";
-    LAND_CANVAS.style.top = LAND_CANVAS.offsetTop - CELL_SIZE + "px";
-  }
-  moveSouthwest() {
-    this.x -= CELL_SIZE;
-    this.y += CELL_SIZE;
-    PLAYER_CANVAS.style.left = PLAYER_CANVAS.offsetLeft + CELL_SIZE + "px";
-    LAND_CANVAS.style.left = LAND_CANVAS.offsetLeft + CELL_SIZE + "px";
-    PLAYER_CANVAS.style.top = PLAYER_CANVAS.offsetTop - CELL_SIZE + "px";
+    this.canvas.style.top = this.canvas.offsetTop - CELL_SIZE + "px";
     LAND_CANVAS.style.top = LAND_CANVAS.offsetTop - CELL_SIZE + "px";
   }
   moveWest() {
     this.x -= CELL_SIZE;
-    PLAYER_CANVAS.style.left = PLAYER_CANVAS.offsetLeft + CELL_SIZE + "px";
+    this.canvas.style.left = this.canvas.offsetLeft + CELL_SIZE + "px";
     LAND_CANVAS.style.left = LAND_CANVAS.offsetLeft + CELL_SIZE + "px";
-  }
-  moveNorthwest() {
-    this.x -= CELL_SIZE;
-    this.y -= CELL_SIZE;
-    PLAYER_CANVAS.style.left = PLAYER_CANVAS.offsetLeft + CELL_SIZE + "px";
-    LAND_CANVAS.style.left = LAND_CANVAS.offsetLeft + CELL_SIZE + "px";
-    PLAYER_CANVAS.style.top = PLAYER_CANVAS.offsetTop + CELL_SIZE + "px";
-    LAND_CANVAS.style.top = LAND_CANVAS.offsetTop + CELL_SIZE + "px";
   }
   moveNorth() {
     this.y -= CELL_SIZE;
-    PLAYER_CANVAS.style.top = PLAYER_CANVAS.offsetTop + CELL_SIZE + "px";
+    this.canvas.style.top = this.canvas.offsetTop + CELL_SIZE + "px";
     LAND_CANVAS.style.top = LAND_CANVAS.offsetTop + CELL_SIZE + "px";
   }
+  moveSoutheast() {
+    this.moveSouth();
+    this.moveEast();
+  }
+  moveSouthwest() {
+    this.moveSouth();
+    this.moveWest();
+  }
+  moveNorthwest() {
+    this.moveNorth();
+    this.moveWest();
+  }
   moveNortheast() {
-    this.x += CELL_SIZE;
-    this.y -= CELL_SIZE;
-    PLAYER_CANVAS.style.left = PLAYER_CANVAS.offsetLeft - CELL_SIZE + "px";
-    LAND_CANVAS.style.left = LAND_CANVAS.offsetLeft - CELL_SIZE + "px";
-    PLAYER_CANVAS.style.top = PLAYER_CANVAS.offsetTop + CELL_SIZE + "px";
-    LAND_CANVAS.style.top = LAND_CANVAS.offsetTop + CELL_SIZE + "px";
+    this.moveNorth();
+    this.moveEast();
+  }
+  find(target) {
+    switch (target) {
+      case "water":
+        break;
+    }
   }
   setAction(action) {
     if (this.abilities.indexOf(action) !== -1) {

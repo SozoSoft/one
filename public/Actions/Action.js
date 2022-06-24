@@ -5,7 +5,14 @@ class Action {
   target;
   terrain;
   stopped;
-  constructor(name, terrain, target1 = "", target2 = "", duration = 0) {
+  actor;
+  constructor(name = "", terrain, args = [], actor = {}) {
+    console.log(actor);
+    console.log(actor.abilities);
+    console.log("name: " + name.split(" ")[0]);
+    if (actor.abilities.indexOf(name.split(" ")[0]) == -1) {
+      throw "Actor: " + actor.category + " not able to " + name.split(" ")[0];
+    }
     this.name = name;
     this.terrain = terrain;
     this.stopped = false;
@@ -33,74 +40,30 @@ class Action {
         this.requirements = [];
         break;
       case "pick up":
-        if (target1 == "") {
-          cli.addCommand("No target to pick up specified.");
-        }
         break;
       case "throw":
-        if (target1 == "") {
-          cli.addCommand("No item to throw specified.");
-        } else if (target2 == "") {
-          cli.addCommand("No target to throw at specified.");
-        }
         break;
       case "cook":
-        if (target1 == "") {
-          cli.addCommand("No item to cook specified.");
-        }
         break;
       case "eat":
-        if (target1 == "") {
-          cli.addCommand("No item to eat specified.");
-        }
         break;
       case "sleep":
-        if (duration == 0) {
-          cli.addCommand("No sleep time specified.");
-        }
         break;
       case "drink":
-        if (target1 == "") {
-          cli.addCommand("No item to drink specified.");
-        }
         break;
       case "walk":
-        if (target1 == "") {
-          cli.addCommand("No direction specified.");
-        } else if (target2 == "") {
-          cli.addCommand("No distance specified.");
-        }
         break;
       case "run":
-        if (target1 == "") {
-          cli.addCommand("No direction specified.");
-        } else if (target2 == "") {
-          cli.addCommand("No distance specified.");
-        }
         break;
       case "kill":
-        if (target1 == "") {
-          cli.addCommand("No target specified.");
-        }
         break;
       case "feed":
-        if (target1 == "") {
-          cli.addCommand("No recipient specified.");
-        } else if (target2 == "") {
-          cli.addCommand("No food specified.");
-        }
         break;
       case "pet":
-        if (target1 == "") {
-          cli.addCommand("No target specified.");
-        }
         break;
       case "build":
         break;
       case "demolish":
-        if (target1 == "") {
-          cli.addCommand("No target specified.");
-        }
         break;
     }
   }
@@ -116,29 +79,25 @@ class Action {
     switch (this.name) {
       case "find water":
         const destination = player.findWater(terrain);
-        cli.addCommand("Attempting to " + this.name + "...");
+        cli.addMessage("Attempting to " + this.name + "...");
         while (
           (player.x !== destination.x || player.y !== destination.y) &&
           !this.stopped
         ) {
           await sleep(500);
-          if (destination.x > player.x) {
-            player.moveEast();
-          } else if (destination.x < player.x) {
-            player.moveWest();
-          }
-          if (destination.y > player.y) {
-            player.moveSouth();
-          } else if (destination.y < player.y) {
-            player.moveNorth();
-          }
+          destination.x > player.x && player.moveEast();
+          destination.x < player.x && player.moveWest();
+          destination.y > player.y && player.moveSouth();
+          destination.y < player.y && player.moveNorth();
           player.draw();
         }
-        cli.addCommand("You found a great place to " + this.name + "!");
-        cli.addCommand(
-          "I hope you brought the following items: " +
-            this.requirements.join(", ")
-        );
+        player.x == destination.x &&
+          player.y == destination.y &&
+          cli.addMessage("You found a great place to " + this.name + "!") &&
+          cli.addMessage(
+            "I hope you brought the following items: " +
+              this.requirements.join(", ")
+          );
         break;
       case "start fire":
         var able = true;
@@ -146,7 +105,7 @@ class Action {
           console.log(this.requirements[i]);
           console.log(player.inventory.indexOf(this.requirements[i]));
           if (player.inventory.indexOf(this.requirements[i]) == -1) {
-            cli.addCommand(
+            cli.addMessage(
               "You need " + this.requirements[i] + " to start a fire!"
             );
             able = false;
@@ -155,7 +114,7 @@ class Action {
         console.log(able);
         console.log(this.requirements.length);
         console.log(player.inventory.length);
-        able && cli.addCommand("You are starting a fire...");
+        able && cli.addMessage("You are starting a fire...");
         break;
       case "wander":
         let cycle = 0;

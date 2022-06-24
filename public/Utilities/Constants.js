@@ -1,26 +1,3 @@
-/*
-TODO: 
-    * 'look around' -> build this out more
-        * likely 1. check if area has already been 'look around' in
-        * if so, check if sufficient time has passed for more items to have appeared (branches falling, mushrooms growing, etc)
-        * if not, randomly generate items based on biome
-        * display found items in cli
-        * if inventory has space, user may then 'pickup [item]' using either item name, item id#, or * to pick up all
-        * if user inventory full, give error
-    * cancel() -> add id as a parameter cancel(id)
-    * if no parameter passed to cancel, cancel most recent job/action (and pop from list)
-    * id -1 would be the last job/action, -2 the second to last, and so on.
-    * id 1 would be the first job/action (or maybe id 0, not sure which would be most intuitive for most players)
-    * wander -> allow arguments for distance and/or time. (wander 30 - player wanders for 30 seconds)
-    * 'list actions' (or something like that) -> new command to list all currently active actions (like ps in bash)
-        * maybe call this 'doing' or 'active' or 'in progress'
-        * list would provide names, est. time to completion, time running, id (job/action id)
-    * 'look around' -> similar to ls in bash
-    * inventory -> lists items in your inventory
-    * 'pause' -> put an action on hold
-    * 'todo [action][index to be inserted at]' -> adds an action to be done after action at previous index completes
-        * pushes whatever's currently at that index to the following index
-*/
 /**
  * Determine the mobile operating system.
  * This function returns one of 'iOS', 'Android', 'Windows Phone', or 'unknown'.
@@ -57,6 +34,114 @@ const WINDOW_HEIGHT =
   document.body.clientHeight - (document.body.clientHeight % 16);
 //#endregion
 
+const COMMANDS = [
+  "go",
+  "walk",
+  "run",
+  "throw",
+  "find",
+  "clear",
+  "cls",
+  "make",
+  "create",
+  "craft",
+  "drop",
+  "collect",
+  "equip",
+  "sleep",
+  "wander",
+  "explore",
+  "look",
+  "stop",
+  "eat",
+  "fly",
+  "slither",
+];
+const DIRECTIONS = [
+  "north",
+  "northeast",
+  "east",
+  "southeast",
+  "south",
+  "southwest",
+  "west",
+  "northwest",
+];
+const FLORAE = ["grass", "rose", "clover", "mushroom", "tree", "bush", "weed"];
+const FAUNAE = [
+  "goat",
+  "sheep",
+  "snake",
+  "deer",
+  "wolf",
+  "squirrel",
+  "fish",
+  "bird",
+  "rabbit",
+];
+const RAW_ITEMS = ["water", "rock", "sick", "mushroom", "leaf", "bark"];
+const CRAFTABLE_ITEMS = [
+  "bow",
+  "bowdrill",
+  "string",
+  "cordage",
+  "rope",
+  "basket",
+  "spear",
+];
+const ALL_ITEMS = RAW_ITEMS.concat(
+  CRAFTABLE_ITEMS.concat(FLORAE.concat(FAUNAE))
+);
+const EDIBLES = [
+  "cooked chicken",
+  "cooked fish",
+  "cooked squirrel",
+  "cooked rabbit",
+];
+const COOKABLES = ["chicken", "fish", "squirrel", "rabbit"];
+const THROWABLES = ["stick", "rock", "spear"];
+const EQUIPABLES = ["stick", "rock", "spear", "bow"];
+const ARGUMENT_MAP = {
+  walk: DIRECTIONS,
+  run: DIRECTIONS,
+  go: DIRECTIONS,
+  look: DIRECTIONS,
+  explore: DIRECTIONS,
+  wander: DIRECTIONS,
+  find: ALL_ITEMS,
+  craft: CRAFTABLE_ITEMS,
+  create: CRAFTABLE_ITEMS,
+  make: CRAFTABLE_ITEMS,
+  drop: ALL_ITEMS,
+  process: ALL_ITEMS,
+  equip: ALL_ITEMS,
+  eat: ALL_ITEMS,
+  drink: ALL_ITEMS,
+  throw: ALL_ITEMS,
+  collect: ALL_ITEMS,
+};
+const PLAYER_ABILITIES = [
+  "throw",
+  "cook",
+  "make",
+  "create",
+  "craft",
+  "eat",
+  "walk",
+  "go",
+  "run",
+  "wander",
+  "collect",
+  "equip",
+  "find",
+  "start",
+];
+const BIRD_ABILITIES = ["fly"];
+const SNAKE_ABILITIES = ["slither"];
+const ALL_ABILITIES = BIRD_ABILITIES.concat(PLAYER_ABILITIES);
+const ABILITY_MAP = {
+  player: PLAYER_ABILITIES,
+};
 const TYPES = { PLAYER: "player", DEER: "deer" };
 const ICONS = {
   PLAYER: "🧔",

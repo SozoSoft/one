@@ -1,27 +1,3 @@
-// /*
-// TODO: 
-//     * 'look around' -> build this out more
-//         * likely 1. check if area has already been 'look around' in
-//         * if so, check if sufficient time has passed for more items to have appeared (branches falling, mushrooms growing, etc)
-//         * if not, randomly generate items based on biome
-//         * display found items in cli
-//         * if inventory has space, user may then 'pickup [item]' using either item name, item id#, or * to pick up all
-//         * if user inventory full, give error
-//     * cancel() -> add id as a parameter cancel(id)
-//     * if no parameter passed to cancel, cancel most recent job/action (and pop from list)
-//     * id -1 would be the last job/action, -2 the second to last, and so on.
-//     * id 1 would be the first job/action (or maybe id 0, not sure which would be most intuitive for most players)
-//     * wander -> allow arguments for distance and/or time. (wander 30 - player wanders for 30 seconds)
-//     * 'list actions' (or something like that) -> new command to list all currently active actions (like ps in bash)
-//         * maybe call this 'doing' or 'active' or 'in progress'
-//         * list would provide names, est. time to completion, time running, id (job/action id)
-//     * 'look around' -> similar to ls in bash
-//     * inventory -> lists items in your inventory
-//     * 'pause' -> put an action on hold
-//     * 'todo [action][index to be inserted at]' -> adds an action to be done after action at previous index completes
-//         * pushes whatever's currently at that index to the following index
-// */
-
 class CLI extends Matter {
   visible;
   commands;
@@ -68,6 +44,8 @@ class CLI extends Matter {
     this.y = newy;
     this.show();
   }
+  //TODO: design help menu
+  displayHelpMenu() {}
   update(ch) {
     this.show();
     CLI_CTX.fillText(ch, this.x + 22, this.y + 16 + this.commands.length * 16);
@@ -76,8 +54,31 @@ class CLI extends Matter {
     CLI_CTX.clearRect(this.x, this.y, this.w, this.h);
     this.visible = false;
   }
-  /* TODO: don't save notifications to command history (such as "you are fishing...")*/
+  addMessage(message, terrain) {
+    this.commands.push(message);
+    this.show();
+  }
+  addError(err) {
+    this.commands.push(err);
+    this.show();
+  }
   addCommand(command, terrain) {
+    command = command.toLowerCase();
+    const cmdArray = command.split(" ");
+    console.log(cmdArray.length);
+    const newCMD = cmdArray[0];
+    const args = cmdArray.slice(1, cmdArray.length);
+    try {
+      console.log(newCMD);
+      console.log(COMMANDS);
+      console.log(COMMANDS.indexOf(newCMD) !== -1);
+      const newCommand = new Command(newCMD, args, player, terrain);
+    } catch (err) {
+      this.clearCommands();
+      this.addError(err);
+      this.show();
+    }
+
     let action;
     switch (command) {
       case "stop":
@@ -106,7 +107,7 @@ class CLI extends Matter {
         this.history.push(command);
         this.clearCommands();
         this.show();
-        action = new Action(command, terrain);
+        action = new Action(command, terrain, [], player);
         player.current_action = action;
         player.current_action.do(terrain);
         player.active_actions.push(player.current_action);
@@ -156,35 +157,30 @@ function cli_event(e) {
         ? (command = cli.history[cli.history.length - prevCommandCounter])
         : null;
       prevCommandCounter = 0;
-      cli.visible && cli.addCommand(command, terrain);
+      cli.addCommand(command, terrain);
       command = "";
       text.value = "";
 
       break;
     case "Backspace":
       prevCommandCounter = 0;
-      cli.visible && command.length > 0
-        ? (command = command.slice(0, -1))
-        : null;
-      cli.visible && cli.update(command);
+      command.length > 0 ? (command = command.slice(0, -1)) : null;
+      cli.update(command);
       break;
     case "Shift":
       prevCommandCounter = 0;
       break;
     case "ArrowUp":
       e.preventDefault();
-      cli.visible &&
-        cli.history.length > 0 &&
+      cli.history.length > 0 &&
         prevCommandCounter < cli.history.length &&
         prevCommandCounter++;
-      cli.visible &&
-        cli.history[cli.history.length - prevCommandCounter] !== undefined &&
+      cli.history[cli.history.length - prevCommandCounter] !== undefined &&
         cli.update(cli.history[cli.history.length - prevCommandCounter]);
       break;
     case "ArrowDown":
       e.preventDefault();
-      cli.visible &&
-        cli.history.length > 0 &&
+      cli.history.length > 0 &&
         prevCommandCounter > 0 &&
         prevCommandCounter-- &&
         cli.history[cli.history.length - prevCommandCounter] !== undefined &&
@@ -205,11 +201,9 @@ function cli_event(e) {
       e.key == " " && e.preventDefault();
       e.key == " " && (text.value += " ");
       prevCommandCounter = 0;
-      cli.visible
-        ? (isMobile && (command = text.value.trim())) || (command += e.key)
-        : null;
+      (isMobile && (command = text.value.trim())) || (command += e.key);
       command = command.replace("Unidentified", "");
-      cli.visible && cli.update(command);
+      cli.update(command);
       break;
   }
 }

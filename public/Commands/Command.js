@@ -7,51 +7,16 @@ class Command {
   time_remaining;
   is_completed;
   wait_time;
-  constructor(cmd, args = []) {
+  constructor(cmd, args = [], actor, terrain) {
+    if (COMMANDS.indexOf(cmd) == -1) {
+      throw "Unknown Command!";
+    } else if (args.length && ARGUMENT_MAP[cmd].indexOf(args[0]) == -1) {
+      throw "Invalid Argument: " + args[0] + " for command: " + cmd;
+    } else {
+      action = new Action(cmd, terrain, args, actor);
+    }
     this.cmd = cmd;
     this.args = args;
-    switch (cmd) {
-      case "walk":
-        switch (args[0]) {
-          case "north":
-            break;
-          case "northeast":
-            break;
-          case "east":
-            break;
-          case "southeast":
-            break;
-          case "south":
-            break;
-          case "southwest":
-            break;
-          case "west":
-            break;
-          case "northwest":
-            break;
-          default:
-            break; //give user a message about proper use of "walk" command
-        }
-        args[1] && (this.total_time = args[1]); //walk for that amount of time
-
-      case "collect":
-        switch (args[0]) {
-          case "sticks":
-            break;
-          case "rocks":
-            break;
-          case "bark":
-            break;
-          case "leaves":
-            break;
-          case "mushrooms":
-            break;
-          case "worms":
-            break;
-          default:
-            break; //give user message about known items available to for collection
-        }
-    }
   }
   activate() {
     this.is_active = true;
