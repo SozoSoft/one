@@ -7,6 +7,13 @@ class Command {
   time_remaining;
   is_completed;
   wait_time;
+  /**
+   *
+   * @param {string} cmd
+   * @param {string[]} args
+   * @param {Fauna} actor
+   * @param {Terrain} terrain
+   */
   constructor(cmd, args = [], actor, terrain) {
     if (COMMANDS.indexOf(cmd) == -1) {
       throw "Unknown Command!";

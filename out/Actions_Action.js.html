@@ -1,4 +1,32 @@
-class Action {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Actions/Action.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Actions/Action.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>class Action {
   name;
   duration;
   requirements;
@@ -88,19 +116,19 @@ class Action {
         const destination = player.find(terrain, "water");
         cli.addMessage("Attempting to " + this.name + "...");
         while (
-          (player.x !== destination.x || player.y !== destination.y) &&
+          (player.x !== destination.x || player.y !== destination.y) &amp;&amp;
           !this.stopped
         ) {
           await sleep(500);
-          destination.x > player.x && player.moveEast();
-          destination.x < player.x && player.moveWest();
-          destination.y > player.y && player.moveSouth();
-          destination.y < player.y && player.moveNorth();
+          destination.x > player.x &amp;&amp; player.moveEast();
+          destination.x &lt; player.x &amp;&amp; player.moveWest();
+          destination.y > player.y &amp;&amp; player.moveSouth();
+          destination.y &lt; player.y &amp;&amp; player.moveNorth();
           player.draw();
         }
-        player.x == destination.x &&
-          player.y == destination.y &&
-          cli.addMessage("You found a great place to " + this.name + "!") &&
+        player.x == destination.x &amp;&amp;
+          player.y == destination.y &amp;&amp;
+          cli.addMessage("You found a great place to " + this.name + "!") &amp;&amp;
           cli.addMessage(
             "I hope you brought the following items: " +
               this.requirements.join(", ")
@@ -108,7 +136,7 @@ class Action {
         break;
       case "start fire":
         var able = true;
-        for (var i = 0; i < this.requirements.length; i++) {
+        for (var i = 0; i &lt; this.requirements.length; i++) {
           console.log(this.requirements[i]);
           console.log(player.inventory.indexOf(this.requirements[i]));
           if (player.inventory.indexOf(this.requirements[i]) == -1) {
@@ -121,7 +149,7 @@ class Action {
         console.log(able);
         console.log(this.requirements.length);
         console.log(player.inventory.length);
-        able && cli.addMessage("You are starting a fire...");
+        able &amp;&amp; cli.addMessage("You are starting a fire...");
         break;
       case "look around":
         cli.addMessage("You see: " + this.terrain.items[player.y][player.x]);
@@ -135,33 +163,33 @@ class Action {
         let cycle = 0;
         let randDir = 0;
         let visitedCoords = [];
-        while (cycle < 30 && !this.stopped) {
+        while (cycle &lt; 30 &amp;&amp; !this.stopped) {
           // potentially only tack lastCoord so that you don't trap yourself with previously visited coords
           randDir = Math.floor(Math.random() * 4);
           await sleep(500);
-          randDir == 0 &&
+          randDir == 0 &amp;&amp;
             this.terrain.elevations[player.y][player.x + CELL_SIZE] >
-              SEA_LEVEL &&
-            !visitedCoords.includes(player.x + CELL_SIZE + "," + player.y) &&
-            visitedCoords.push(player.x + CELL_SIZE + "," + player.y) &&
+              SEA_LEVEL &amp;&amp;
+            !visitedCoords.includes(player.x + CELL_SIZE + "," + player.y) &amp;&amp;
+            visitedCoords.push(player.x + CELL_SIZE + "," + player.y) &amp;&amp;
             player.moveEast();
-          randDir == 1 &&
+          randDir == 1 &amp;&amp;
             this.terrain.elevations[player.y][player.x - CELL_SIZE] >
-              SEA_LEVEL &&
-            !visitedCoords.includes(player.x - CELL_SIZE + "," + player.y) &&
-            visitedCoords.push(player.x - CELL_SIZE + "," + player.y) &&
+              SEA_LEVEL &amp;&amp;
+            !visitedCoords.includes(player.x - CELL_SIZE + "," + player.y) &amp;&amp;
+            visitedCoords.push(player.x - CELL_SIZE + "," + player.y) &amp;&amp;
             player.moveWest();
-          randDir == 2 &&
+          randDir == 2 &amp;&amp;
             this.terrain.elevations[player.y + CELL_SIZE][player.x] >
-              SEA_LEVEL &&
-            !visitedCoords.includes(player.x + "," + (player.y + CELL_SIZE)) &&
-            visitedCoords.push(player.x + "," + (player.y + CELL_SIZE)) &&
+              SEA_LEVEL &amp;&amp;
+            !visitedCoords.includes(player.x + "," + (player.y + CELL_SIZE)) &amp;&amp;
+            visitedCoords.push(player.x + "," + (player.y + CELL_SIZE)) &amp;&amp;
             player.moveSouth();
-          randDir == 3 &&
+          randDir == 3 &amp;&amp;
             this.terrain.elevations[player.y - CELL_SIZE][player.x] >
-              SEA_LEVEL &&
-            !visitedCoords.includes(player.x + "," + (player.y - CELL_SIZE)) &&
-            visitedCoords.push(player.x + "," + (player.y - CELL_SIZE)) &&
+              SEA_LEVEL &amp;&amp;
+            !visitedCoords.includes(player.x + "," + (player.y - CELL_SIZE)) &amp;&amp;
+            visitedCoords.push(player.x + "," + (player.y - CELL_SIZE)) &amp;&amp;
             player.moveNorth();
           player.draw();
           cycle++;
@@ -169,7 +197,7 @@ class Action {
         break;
       case "go east":
         while (
-          this.terrain.elevations[player.y][player.x + 16] > SEA_LEVEL &&
+          this.terrain.elevations[player.y][player.x + 16] > SEA_LEVEL &amp;&amp;
           !this.stopped
         ) {
           await sleep(500);
@@ -179,7 +207,7 @@ class Action {
         break;
       case "go southeast":
         while (
-          this.terrain.elevations[player.y + 16][player.x + 16] > SEA_LEVEL &&
+          this.terrain.elevations[player.y + 16][player.x + 16] > SEA_LEVEL &amp;&amp;
           !this.stopped
         ) {
           await sleep(500);
@@ -189,7 +217,7 @@ class Action {
         break;
       case "go south":
         while (
-          this.terrain.elevations[player.y + 16][player.x] > SEA_LEVEL &&
+          this.terrain.elevations[player.y + 16][player.x] > SEA_LEVEL &amp;&amp;
           !this.stopped
         ) {
           await sleep(500);
@@ -199,7 +227,7 @@ class Action {
         break;
       case "go southwest":
         while (
-          this.terrain.elevations[player.y + 16][player.x - 16] > SEA_LEVEL &&
+          this.terrain.elevations[player.y + 16][player.x - 16] > SEA_LEVEL &amp;&amp;
           !this.stopped
         ) {
           await sleep(500);
@@ -209,7 +237,7 @@ class Action {
         break;
       case "go west":
         while (
-          this.terrain.elevations[player.y][player.x - 16] > SEA_LEVEL &&
+          this.terrain.elevations[player.y][player.x - 16] > SEA_LEVEL &amp;&amp;
           !this.stopped
         ) {
           await sleep(500);
@@ -219,7 +247,7 @@ class Action {
         break;
       case "go northwest":
         while (
-          this.terrain.elevations[player.y - 16][player.x - 16] > SEA_LEVEL &&
+          this.terrain.elevations[player.y - 16][player.x - 16] > SEA_LEVEL &amp;&amp;
           !this.stopped
         ) {
           await sleep(500);
@@ -229,7 +257,7 @@ class Action {
         break;
       case "go north":
         while (
-          this.terrain.elevations[player.y - 16][player.x] > SEA_LEVEL &&
+          this.terrain.elevations[player.y - 16][player.x] > SEA_LEVEL &amp;&amp;
           !this.stopped
         ) {
           await sleep(500);
@@ -239,7 +267,7 @@ class Action {
         break;
       case "go northeast":
         while (
-          this.terrain.elevations[player.y - 16][player.x + 16] > SEA_LEVEL &&
+          this.terrain.elevations[player.y - 16][player.x + 16] > SEA_LEVEL &amp;&amp;
           !this.stopped
         ) {
           await sleep(500);
@@ -252,3 +280,26 @@ class Action {
     }
   }
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Action.html">Action</a></li><li><a href="CLI.html">CLI</a></li><li><a href="Command.html">Command</a></li><li><a href="Fauna.html">Fauna</a></li><li><a href="Matter.html">Matter</a></li><li><a href="Terrain.html">Terrain</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getMobileOperatingSystem">getMobileOperatingSystem</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Mon Jun 27 2022 17:10:02 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

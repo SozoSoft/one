@@ -6,6 +6,17 @@ class Matter {
   canvas;
   ctx;
   icon;
+  /**
+   *
+   * @param {number} x
+   * @param {number} y
+   * @param {number} w
+   * @param {number} h
+   * @param {string} category
+   * @param {*} canvas html convas element
+   * @param {*} ctx canvas' ctx property
+   * @param {*} icon ascii char representing this instance of matter
+   */
   constructor(
     x,
     y,

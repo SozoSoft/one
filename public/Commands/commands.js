@@ -37,23 +37,3 @@ const create = (item) => {
 const make = (item) => {
   return;
 };
-
-// const argument_map = {
-//   walk: DIRECTIONS,
-//   run: DIRECTIONS,
-//   go: DIRECTIONS,
-//   look: DIRECTIONS,
-//   explore: DIRECTIONS,
-//   wander: DIRECTIONS,
-//   find: ALL_ITEMS,
-//   craft: CRAFTABLE_ITEMS,
-//   create: CRAFTABLE_ITEMS,
-//   make: CRAFTABLE_ITEMS,
-//   drop: ALL_ITEMS,
-//   process: ALL_ITEMS,
-//   equip: ALL_ITEMS,
-//   eat: ALL_ITEMS,
-//   drink: ALL_ITEMS,
-//   throw: ALL_ITEMS,
-//   collect: ALL_ITEMS,
-// };
