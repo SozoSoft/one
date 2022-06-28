@@ -19,10 +19,8 @@ class Terrain extends Matter {
         this.elevations[row][column] =
           noise.perlin2(column / 350, row / 350) * 48 + 200;
         this.elevations[row][column] *= elev1 * elev2 * elev3 * elev4;
-        if (this.elevations[row][column] > 100) {
-          this.items[row][column] =
-            RAW_ITEMS[Math.floor(Math.random() * RAW_ITEMS.length)];
-          console.log(this.items[row][column]);
+        if (this.elevations[row][column] > SEA_LEVEL) {
+          this.items[row][column] = new Item().generateRandomItemsList();
         }
       }
     }

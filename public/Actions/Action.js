@@ -124,7 +124,18 @@ class Action {
         able && cli.addMessage("You are starting a fire...");
         break;
       case "look around":
-        cli.addMessage("You see: " + this.terrain.items[player.y][player.x]);
+        cli.addMessage("You see: ");
+        for (const property in this.terrain.items[player.y][player.x]) {
+          cli.addMessage(
+            `${
+              property
+                ? property +
+                  ": " +
+                  this.terrain.items[player.y][player.x][property]
+                : ""
+            }`
+          );
+        }
         break;
       case "show inventory":
         cli.addMessage(

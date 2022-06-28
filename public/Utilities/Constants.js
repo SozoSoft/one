@@ -81,7 +81,7 @@ const FAUNAE = [
   "bird",
   "rabbit",
 ];
-const RAW_ITEMS = ["rock", "sick", "mushroom", "leaf", "bark"];
+const RAW_ITEMS = ["rock", "stick", "mushroom", "leaf", "bark"];
 const CRAFTABLE_ITEMS = [
   "bow",
   "bowdrill",
