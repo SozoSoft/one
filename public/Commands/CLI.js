@@ -44,24 +44,13 @@ class CLI extends Matter {
     CLI_CTX.fillText(">", this.x + 4, this.y + 16 + this.commands.length * 16);
     this.visible = true;
   }
-  move(newx, newy) {
-    CLI_CTX.clearRect(this.x, this.y, this.w, this.h);
-    this.x = newx;
-    this.y = newy;
-    this.show();
-  }
+
   //TODO: design help menu
   displayHelpMenu() {}
 
   update(ch) {
     this.show();
     CLI_CTX.fillText(ch, this.x + 22, this.y + 16 + this.commands.length * 16);
-  }
-
-  //shelved, currently 6/24/22 envisioning constant cli
-  hide() {
-    CLI_CTX.clearRect(this.x, this.y, this.w, this.h);
-    this.visible = false;
   }
 
   //show informational message
